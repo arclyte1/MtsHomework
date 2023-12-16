@@ -1,13 +1,14 @@
 package org.example;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 public class Main {
 
     public static void main(String[] args) {
-        Purchase purchase1 = new Purchase(100, 150, 0.75);
-        Purchase purchase2 = new Purchase(100, 150, 42.575);
-        Purchase purchase3 = new Purchase(100, 150, 59.1);
+        Purchase purchase1 = new Purchase(100, new BigDecimal(150), new BigDecimal("0.75"));
+        Purchase purchase2 = new Purchase(100, new BigDecimal(150), new BigDecimal("42.575"));
+        Purchase purchase3 = new Purchase(100, new BigDecimal(150), new BigDecimal("59.1"));
 
         printFinalCost(purchase1);
         printFinalCost(purchase2);
@@ -15,8 +16,10 @@ public class Main {
     }
 
     public static void printFinalCost(Purchase purchase) {
-        double finalCostWithoutDiscount = purchase.productCost * purchase.productCount;
-        double finalCostWithDiscount = finalCostWithoutDiscount * (1 - purchase.discount / 100);
+        BigDecimal finalCostWithoutDiscount = purchase.getProductCost().multiply(BigDecimal.valueOf(purchase.getProductCount()));
+
+        BigDecimal discountMultiplier = BigDecimal.valueOf(1).subtract(purchase.getDiscount().movePointLeft(2));
+        BigDecimal finalCostWithDiscount = finalCostWithoutDiscount.multiply(discountMultiplier);
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(2);
