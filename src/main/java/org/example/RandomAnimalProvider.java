@@ -1,6 +1,9 @@
 package org.example;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Random;
 
 public class RandomAnimalProvider {
@@ -18,31 +21,31 @@ public class RandomAnimalProvider {
         "Рокки",
         "Чарли"
     };
-    private static final String[] DOG_BREEDS = new String[] {
+    private static final String[] DOG_BREEDS = new String[]{
         "Аффенпинчер",
         "Бостон-терьер",
         "Вельштерьер",
         "Мопс"
     };
-    private static final String[] CAT_BREEDS = new String[] {
+    private static final String[] CAT_BREEDS = new String[]{
         "Британская короткошерстная",
         "Мейн-Кун",
         "Азиатская кошка",
         "Манчкин"
     };
-    private static final String[] SHARK_BREEDS = new String[] {
+    private static final String[] SHARK_BREEDS = new String[]{
         "Молотоголовая акула",
         "Белая акула",
         "Японский пилонос",
         "Чёрная колючая акула"
     };
-    private static final String[] WOLF_BREEDS = new String[] {
+    private static final String[] WOLF_BREEDS = new String[]{
         "Гривистый волк",
         "Лирый Волк",
         "Красный волк",
         "Макензенский Волк"
     };
-    private static final String[] CHARACTERS = new String[] {
+    private static final String[] CHARACTERS = new String[]{
         "Слишком дружелюбный",
         "Нервный",
         "Обычный",
@@ -51,6 +54,8 @@ public class RandomAnimalProvider {
     };
     private static final int MIN_COST = 1;
     private static final int MAX_COST = 5000;
+    private static final long MIN_BIRTH_DATE_EPOCH_MILLIS = 0;
+    private static final long MAX_BIRTH_DATE_EPOCH_MILLIS = Instant.now().toEpochMilli();
 
     private final Random random = new Random();
 
@@ -65,7 +70,11 @@ public class RandomAnimalProvider {
             CAT_BREEDS[random.nextInt(CAT_BREEDS.length)],
             ANIMAL_NAMES[random.nextInt(ANIMAL_NAMES.length)],
             BigDecimal.valueOf(random.nextDouble(MIN_COST, MAX_COST)),
-            CHARACTERS[random.nextInt(CHARACTERS.length)]
+            CHARACTERS[random.nextInt(CHARACTERS.length)],
+            LocalDate.ofInstant(Instant.ofEpochMilli(random.nextLong(
+                MIN_BIRTH_DATE_EPOCH_MILLIS,
+                MAX_BIRTH_DATE_EPOCH_MILLIS
+            )), ZoneId.systemDefault())
         );
     }
 
@@ -74,7 +83,11 @@ public class RandomAnimalProvider {
             DOG_BREEDS[random.nextInt(DOG_BREEDS.length)],
             ANIMAL_NAMES[random.nextInt(ANIMAL_NAMES.length)],
             BigDecimal.valueOf(random.nextDouble(MIN_COST, MAX_COST)),
-            CHARACTERS[random.nextInt(CHARACTERS.length)]
+            CHARACTERS[random.nextInt(CHARACTERS.length)],
+            LocalDate.ofInstant(Instant.ofEpochMilli(random.nextLong(
+                MIN_BIRTH_DATE_EPOCH_MILLIS,
+                MAX_BIRTH_DATE_EPOCH_MILLIS
+            )), ZoneId.systemDefault())
         );
     }
 
@@ -83,7 +96,11 @@ public class RandomAnimalProvider {
             SHARK_BREEDS[random.nextInt(SHARK_BREEDS.length)],
             ANIMAL_NAMES[random.nextInt(ANIMAL_NAMES.length)],
             BigDecimal.valueOf(random.nextDouble(MIN_COST, MAX_COST)),
-            CHARACTERS[random.nextInt(CHARACTERS.length)]
+            CHARACTERS[random.nextInt(CHARACTERS.length)],
+            LocalDate.ofInstant(Instant.ofEpochMilli(random.nextLong(
+                MIN_BIRTH_DATE_EPOCH_MILLIS,
+                MAX_BIRTH_DATE_EPOCH_MILLIS
+            )), ZoneId.systemDefault())
         );
     }
 
@@ -92,25 +109,43 @@ public class RandomAnimalProvider {
             WOLF_BREEDS[random.nextInt(WOLF_BREEDS.length)],
             ANIMAL_NAMES[random.nextInt(ANIMAL_NAMES.length)],
             BigDecimal.valueOf(random.nextDouble(MIN_COST, MAX_COST)),
-            CHARACTERS[random.nextInt(CHARACTERS.length)]
+            CHARACTERS[random.nextInt(CHARACTERS.length)],
+            LocalDate.ofInstant(Instant.ofEpochMilli(random.nextLong(
+                MIN_BIRTH_DATE_EPOCH_MILLIS,
+                MAX_BIRTH_DATE_EPOCH_MILLIS
+            )), ZoneId.systemDefault())
         );
     }
 
-    public Animal provide() {
-        switch (random.nextInt(4)) {
-            case 0 -> {
+    private Animal provideOfType(AnimalType type) {
+        switch (type) {
+            case CAT -> {
                 return provideCat();
             }
-            case 1 -> {
+            case DOG -> {
                 return provideDog();
             }
-            case 2 -> {
-                return provideShark();
-            }
-            case 3 -> {
+            case WOLF -> {
                 return provideWolf();
+            }
+            case SHARK -> {
+                return provideShark();
             }
         }
         return null;
+    }
+
+    /**
+     * Provides random animal of one of the specified types
+     *
+     * @param types array of possible {@link AnimalType}s to generate
+     * @return random {@link Animal} or null if types array is empty
+     */
+    public Animal provide(AnimalType[] types) {
+        if (types.length == 0) {
+            return null;
+        }
+        int randomIndex = random.nextInt(types.length);
+        return provideOfType(types[randomIndex]);
     }
 }

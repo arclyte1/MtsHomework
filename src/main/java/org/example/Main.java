@@ -2,16 +2,32 @@ package org.example;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Arrays;
 
 public class Main {
 
     public static void main(String[] args) {
-        CreateAnimalService service = new CreateAnimalService() { };
-        service.createAnimals();
+        AnimalType[] animalTypesToCreate = new AnimalType[] {
+            AnimalType.DOG,
+            AnimalType.CAT,
+            AnimalType.SHARK,
+            AnimalType.WOLF
+        };
 
-        CreateAnimalServiceImpl serviceImpl = new CreateAnimalServiceImpl();
-        serviceImpl.createAnimals();
-        serviceImpl.createAnimals(15);
+        CreateAnimalService createService = new CreateAnimalService() { };
+        Animal[] animals = createService.createAnimals(animalTypesToCreate);
+
+        CreateAnimalServiceImpl createServiceImpl = new CreateAnimalServiceImpl();
+        Animal[] animals2 = createServiceImpl.createAnimals(animalTypesToCreate);
+        Animal[] animals3 = Arrays.copyOf(createServiceImpl.createAnimals(animalTypesToCreate, 15), 20);
+        for (int i = 0; i < 5; i++) {
+            animals3[15 + i] = animals3[i];
+        }
+
+        SearchAnimalService searchService = new SearchAnimalServiceImpl();
+        System.out.println(Arrays.toString(searchService.findLeapYearNames(animals)));
+        System.out.println(Arrays.toString(searchService.findOlderAnimal(animals2, 20)));
+        searchService.findDuplicate(animals3);
     }
 
     public static void printFinalCost(Purchase purchase) {
