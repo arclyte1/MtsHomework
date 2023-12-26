@@ -6,13 +6,12 @@ import java.text.NumberFormat;
 public class Main {
 
     public static void main(String[] args) {
-        Purchase purchase1 = new Purchase(100, new BigDecimal(150), new BigDecimal("0.75"));
-        Purchase purchase2 = new Purchase(100, new BigDecimal(150), new BigDecimal("42.575"));
-        Purchase purchase3 = new Purchase(100, new BigDecimal(150), new BigDecimal("59.1"));
+        CreateAnimalService service = new CreateAnimalService() { };
+        service.createAnimals();
 
-        printFinalCost(purchase1);
-        printFinalCost(purchase2);
-        printFinalCost(purchase3);
+        CreateAnimalServiceImpl serviceImpl = new CreateAnimalServiceImpl();
+        serviceImpl.createAnimals();
+        serviceImpl.createAnimals(15);
     }
 
     public static void printFinalCost(Purchase purchase) {
