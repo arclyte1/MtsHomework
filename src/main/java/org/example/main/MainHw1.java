@@ -1,9 +1,11 @@
-package org.example;
+package org.example.main;
+
+import org.example.model.Purchase;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
-public class Main {
+public class MainHw1 {
 
     public static void main(String[] args) {
         Purchase purchase1 = new Purchase(100, new BigDecimal(150), new BigDecimal("0.75"));
