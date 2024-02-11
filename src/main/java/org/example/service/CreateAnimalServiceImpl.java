@@ -1,5 +1,6 @@
-package org.example;
+package org.example.service;
 
+import org.example.utils.RandomAnimalProvider;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 

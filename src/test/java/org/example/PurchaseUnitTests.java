@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.main.MainHw1;
+import org.example.model.Purchase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +24,7 @@ public class PurchaseUnitTests {
     @Test
     void calculateFinalCostWithValidParameters() {
         Purchase purchase = new Purchase(100, new BigDecimal(150), new BigDecimal("0.75"));
-        Main.printFinalCost(purchase);
+        MainHw1.printFinalCost(purchase);
         assertEquals(OUT_STREAM.toString(), "Final cost without discount = 15000\r\nFinal cost with discount = 14887.5\r\n");
     }
 
@@ -50,9 +52,9 @@ public class PurchaseUnitTests {
 
     @Test
     void createPurchaseWithInvalidDiscount() {
-        BigDecimal[] discounts = new BigDecimal[] {
-            new BigDecimal("-1"),
-            new BigDecimal("110")
+        BigDecimal[] discounts = new BigDecimal[]{
+                new BigDecimal("-1"),
+                new BigDecimal("110")
         };
 
         for (BigDecimal discount : discounts) {

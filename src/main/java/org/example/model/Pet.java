@@ -1,10 +1,10 @@
-package org.example;
+package org.example.model;
 
 import java.math.BigDecimal;
 
 public abstract class Pet extends AbstractAnimal {
 
-    Pet(String breed, String name, BigDecimal cost, String character) {
+    public Pet(String breed, String name, BigDecimal cost, String character) {
         super(breed, name, cost, character);
     }
 }

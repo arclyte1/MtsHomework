@@ -1,17 +1,20 @@
-package org.example;
+package org.example.main;
+
+import org.example.model.Purchase;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
-public class Main {
+public class MainHw1 {
 
     public static void main(String[] args) {
-        CreateAnimalService service = new CreateAnimalService() { };
-        service.createAnimals();
+        Purchase purchase1 = new Purchase(100, new BigDecimal(150), new BigDecimal("0.75"));
+        Purchase purchase2 = new Purchase(100, new BigDecimal(150), new BigDecimal("42.575"));
+        Purchase purchase3 = new Purchase(100, new BigDecimal(150), new BigDecimal("59.1"));
 
-        CreateAnimalServiceImpl serviceImpl = new CreateAnimalServiceImpl();
-        serviceImpl.createAnimals();
-        serviceImpl.createAnimals(15);
+        printFinalCost(purchase1);
+        printFinalCost(purchase2);
+        printFinalCost(purchase3);
     }
 
     public static void printFinalCost(Purchase purchase) {
