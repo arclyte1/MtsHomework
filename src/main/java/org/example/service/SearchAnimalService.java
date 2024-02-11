@@ -26,5 +26,13 @@ public interface SearchAnimalService {
      *
      * @param animals array of animals
      */
-    void findDuplicate(Animal[] animals);
+    void printDuplicate(Animal[] animals);
+
+    /**
+     * Finds animal duplicates using {@link Object#equals(Object)} and returns them.
+     *
+     * @param animals array of animals
+     * @return array of duplicates
+     */
+    Animal[] findDuplicate(Animal[] animals);
 }
