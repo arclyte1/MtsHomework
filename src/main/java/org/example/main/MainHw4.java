@@ -19,7 +19,7 @@ public class MainHw4 {
                 AnimalType.WOLF
         };
 
-        CreateAnimalService createService = new CreateAnimalService() { };
+        CreateAnimalService createService = new CreateAnimalService() {};
         Animal[] animals = createService.createAnimals(animalTypesToCreate);
 
         CreateAnimalServiceImpl createServiceImpl = new CreateAnimalServiceImpl();

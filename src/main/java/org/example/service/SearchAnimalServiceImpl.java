@@ -3,7 +3,9 @@ package org.example.service;
 import org.example.model.Animal;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -12,53 +14,29 @@ public class SearchAnimalServiceImpl implements SearchAnimalService {
 
     @Override
     public String[] findLeapYearNames(Animal[] animals) {
-        Predicate<Animal> leapYearAnimalPredicate = animal -> {
-            return animal.getBirthDate() != null && animal.getBirthDate().isLeapYear() && animal.getName() != null;
-        };
+        Predicate<Animal> leapYearAnimalPredicate = animal -> animal.getBirthDate() != null && animal.getBirthDate().isLeapYear() && animal.getName() != null;
 
-        // Count animals with leap birth year
-        int leapYearAnimalsCount = 0;
-        for (Animal animal : animals) {
-            if (animal != null && leapYearAnimalPredicate.test(animal))
-                leapYearAnimalsCount++;
-        }
-
-        // Init and fill result array
-        String[] leapYearAnimalNames = new String[leapYearAnimalsCount];
-        leapYearAnimalsCount--; // decrement for use as index of leapYearAnimalNames
+        List<String> leapYearAnimalNames = new ArrayList<>();
         for (Animal animal : animals) {
             if (animal != null && leapYearAnimalPredicate.test(animal)) {
-                leapYearAnimalNames[leapYearAnimalsCount] = animal.getName();
-                leapYearAnimalsCount--;
+                leapYearAnimalNames.add(animal.getName());
             }
         }
-        return leapYearAnimalNames;
+        return leapYearAnimalNames.toArray(String[]::new);
     }
 
     @Override
     public Animal[] findOlderAnimal(Animal[] animals, int n) {
-        BiPredicate<Animal, LocalDate> olderAnimalPredicate = (animal, date) -> {
-            return animal.getBirthDate() != null && animal.getBirthDate().isBefore(date);
-        };
+        BiPredicate<Animal, LocalDate> olderAnimalPredicate = (animal, date) -> animal.getBirthDate() != null && animal.getBirthDate().isBefore(date);
         LocalDate maximumBirthDate = LocalDate.now().minusYears(n);
 
-        // Count animals older than n years
-        int olderAnimalsCount = 0;
-        for (Animal animal : animals) {
-            if (animal != null && olderAnimalPredicate.test(animal, maximumBirthDate))
-                olderAnimalsCount++;
-        }
-
-        // Init and fill result array
-        Animal[] olderAnimals = new Animal[olderAnimalsCount];
-        olderAnimalsCount--; // decrement for use as index of olderAnimals
+        List<Animal> olderAnimals = new ArrayList<>();
         for (Animal animal : animals) {
             if (animal != null && olderAnimalPredicate.test(animal, maximumBirthDate)) {
-                olderAnimals[olderAnimalsCount] = animal;
-                olderAnimalsCount--;
+                olderAnimals.add(animal);
             }
         }
-        return olderAnimals;
+        return olderAnimals.toArray(Animal[]::new);
     }
 
     @Override

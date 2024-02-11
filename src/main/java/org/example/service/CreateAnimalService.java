@@ -1,8 +1,8 @@
 package org.example.service;
 
+import org.example.model.Animal;
 import org.example.model.AnimalType;
 import org.example.utils.RandomAnimalProvider;
-import org.example.model.Animal;
 
 public interface CreateAnimalService {
 

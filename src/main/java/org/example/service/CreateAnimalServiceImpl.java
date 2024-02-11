@@ -20,10 +20,11 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
 
     /**
      * Creates n random {@link Animal}s provided by {@link RandomAnimalProvider}
+     *
      * @param types array of possible {@link AnimalType}s to create
-     * @param n number of animals to create
+     * @param n     number of animals to create
      * @return array of created animals
-     * */
+     */
     public Animal[] createAnimals(AnimalType[] types, int n) {
         RandomAnimalProvider animalProvider = RandomAnimalProvider.getInstance();
         Animal[] animals = new Animal[n];
