@@ -9,11 +9,10 @@ public interface CreateAnimalService {
     /**
      * Creates 10 random {@link Animal}s provided by {@link RandomAnimalProvider}
      *
-     * @param types array of possible {@link AnimalType}s to create
      * @return array of created animals
      */
     default Animal[] createAnimals() {
-        RandomAnimalProvider animalProvider = RandomAnimalProvider.getInstance();
+        RandomAnimalProvider animalProvider = new RandomAnimalProvider();
         Animal[] animals = new Animal[10];
         int i = 0;
         while (i < 10) {

@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:2.7.4'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.7.4'
+}
+
+task prepareKotlinBuildScriptModel {
+
+}
