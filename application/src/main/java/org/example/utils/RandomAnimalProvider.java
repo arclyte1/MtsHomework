@@ -1,6 +1,9 @@
 package org.example.utils;
 
+import org.example.AnimalData;
 import org.example.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -8,52 +11,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Random;
 
+@Component
 public final class RandomAnimalProvider {
 
-    private static final RandomAnimalProvider INSTANCE = new RandomAnimalProvider();
-    private static final String[] ANIMAL_NAMES = new String[]{
-            "Бадди",
-            "Бакстер",
-            "Джейк",
-            "Дэйзи",
-            "Купер",
-            "Люк",
-            "Макс",
-            "Оливер",
-            "Рокки",
-            "Чарли"
-    };
-    private static final String[] DOG_BREEDS = new String[]{
-            "Аффенпинчер",
-            "Бостон-терьер",
-            "Вельштерьер",
-            "Мопс"
-    };
-    private static final String[] CAT_BREEDS = new String[]{
-            "Британская короткошерстная",
-            "Мейн-Кун",
-            "Азиатская кошка",
-            "Манчкин"
-    };
-    private static final String[] SHARK_BREEDS = new String[]{
-            "Молотоголовая акула",
-            "Белая акула",
-            "Японский пилонос",
-            "Чёрная колючая акула"
-    };
-    private static final String[] WOLF_BREEDS = new String[]{
-            "Гривистый волк",
-            "Лирый Волк",
-            "Красный волк",
-            "Макензенский Волк"
-    };
-    private static final String[] CHARACTERS = new String[]{
-            "Слишком дружелюбный",
-            "Нервный",
-            "Обычный",
-            "Своенравный",
-            "Робкий"
-    };
+    @Autowired
+    private AnimalData animalData;
     private static final int MIN_COST = 1;
     private static final int MAX_COST = 5000;
     private static final long MIN_BIRTH_DATE_EPOCH_MILLIS = 0;
@@ -61,19 +23,12 @@ public final class RandomAnimalProvider {
 
     private final Random random = new Random();
 
-    public static RandomAnimalProvider getInstance() {
-        return INSTANCE;
-    }
-
-    private RandomAnimalProvider() {
-    }
-
     private Cat provideCat() {
         return new Cat(
-                CAT_BREEDS[random.nextInt(CAT_BREEDS.length)],
-                ANIMAL_NAMES[random.nextInt(ANIMAL_NAMES.length)],
+                animalData.getRandomCatBreed(),
+                animalData.getRandomName(),
                 BigDecimal.valueOf(random.nextDouble(MIN_COST, MAX_COST)),
-                CHARACTERS[random.nextInt(CHARACTERS.length)],
+                animalData.getRandomCharacter(),
                 LocalDate.ofInstant(Instant.ofEpochMilli(random.nextLong(
                         MIN_BIRTH_DATE_EPOCH_MILLIS,
                         MAX_BIRTH_DATE_EPOCH_MILLIS
@@ -83,10 +38,10 @@ public final class RandomAnimalProvider {
 
     private Dog provideDog() {
         return new Dog(
-                DOG_BREEDS[random.nextInt(DOG_BREEDS.length)],
-                ANIMAL_NAMES[random.nextInt(ANIMAL_NAMES.length)],
+                animalData.getRandomDogBreed(),
+                animalData.getRandomName(),
                 BigDecimal.valueOf(random.nextDouble(MIN_COST, MAX_COST)),
-                CHARACTERS[random.nextInt(CHARACTERS.length)],
+                animalData.getRandomCharacter(),
                 LocalDate.ofInstant(Instant.ofEpochMilli(random.nextLong(
                         MIN_BIRTH_DATE_EPOCH_MILLIS,
                         MAX_BIRTH_DATE_EPOCH_MILLIS
@@ -96,10 +51,10 @@ public final class RandomAnimalProvider {
 
     private Shark provideShark() {
         return new Shark(
-                SHARK_BREEDS[random.nextInt(SHARK_BREEDS.length)],
-                ANIMAL_NAMES[random.nextInt(ANIMAL_NAMES.length)],
+                animalData.getRandomSharkBreed(),
+                animalData.getRandomName(),
                 BigDecimal.valueOf(random.nextDouble(MIN_COST, MAX_COST)),
-                CHARACTERS[random.nextInt(CHARACTERS.length)],
+                animalData.getRandomCharacter(),
                 LocalDate.ofInstant(Instant.ofEpochMilli(random.nextLong(
                         MIN_BIRTH_DATE_EPOCH_MILLIS,
                         MAX_BIRTH_DATE_EPOCH_MILLIS
@@ -109,10 +64,10 @@ public final class RandomAnimalProvider {
 
     private Wolf provideWolf() {
         return new Wolf(
-                WOLF_BREEDS[random.nextInt(WOLF_BREEDS.length)],
-                ANIMAL_NAMES[random.nextInt(ANIMAL_NAMES.length)],
+                animalData.getRandomWolfBreed(),
+                animalData.getRandomName(),
                 BigDecimal.valueOf(random.nextDouble(MIN_COST, MAX_COST)),
-                CHARACTERS[random.nextInt(CHARACTERS.length)],
+                animalData.getRandomCharacter(),
                 LocalDate.ofInstant(Instant.ofEpochMilli(random.nextLong(
                         MIN_BIRTH_DATE_EPOCH_MILLIS,
                         MAX_BIRTH_DATE_EPOCH_MILLIS

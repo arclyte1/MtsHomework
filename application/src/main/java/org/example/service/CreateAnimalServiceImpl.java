@@ -3,9 +3,12 @@ package org.example.service;
 import org.example.model.Animal;
 import org.example.model.AnimalType;
 import org.example.utils.RandomAnimalProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
+    @Autowired
+    private RandomAnimalProvider animalProvider;
     private AnimalType animalType;
 
     public void setAnimalType(AnimalType animalType) {
@@ -14,7 +17,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
 
     @Override
     public Animal[] createAnimals() {
-        RandomAnimalProvider animalProvider = RandomAnimalProvider.getInstance();
         Animal[] animals = new Animal[10];
         int i = 0;
         do {
@@ -31,7 +33,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
      * @return array of created animals
      */
     public Animal[] createAnimals(int n) {
-        RandomAnimalProvider animalProvider = RandomAnimalProvider.getInstance();
         Animal[] animals = new Animal[n];
         for (int i = 0; i < n; i++) {
             animals[i] = animalProvider.provide(new AnimalType[]{animalType});

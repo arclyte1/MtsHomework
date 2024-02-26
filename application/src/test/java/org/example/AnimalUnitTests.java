@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.main.MainHw6;
+import org.example.main.MainHw7;
 import org.example.model.*;
 import org.example.repository.AnimalsRepository;
 import org.example.repository.AnimalsRepositoryImpl;
@@ -76,7 +76,7 @@ public class AnimalUnitTests {
 
         @BeforeAll
         static void setUp() {
-            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MainHw6.class);
+            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MainHw7.class);
             animalsRepository = (AnimalsRepositoryImpl) context.getBean(AnimalsRepository.class);
         }
 
