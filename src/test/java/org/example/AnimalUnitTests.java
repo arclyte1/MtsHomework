@@ -1,13 +1,17 @@
 package org.example;
 
+import org.example.main.MainHw6;
 import org.example.model.*;
-import org.example.service.SearchAnimalService;
-import org.example.service.SearchAnimalServiceImpl;
+import org.example.repository.AnimalsRepository;
+import org.example.repository.AnimalsRepositoryImpl;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -65,9 +69,16 @@ public class AnimalUnitTests {
     }
 
     @Nested
-    class SearchAnimalServiceUnitTests {
+    @ComponentScan
+    class AnimalsRepositoryUnitTests {
 
-        private static final SearchAnimalService searchAnimalService = new SearchAnimalServiceImpl();
+        private static AnimalsRepositoryImpl animalsRepository;
+
+        @BeforeAll
+        static void setUp() {
+            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MainHw6.class);
+            animalsRepository = (AnimalsRepositoryImpl) context.getBean(AnimalsRepository.class);
+        }
 
         @Test
         @DisplayName("Call findLeapYearNames with only leap years")
@@ -77,8 +88,9 @@ public class AnimalUnitTests {
             animals[1] = new Dog(null, "dog", null, null, LocalDate.of(2020, 1, 1));
             animals[2] = new Wolf(null, "wolf", null, null, LocalDate.of(2016, 1, 1));
             animals[3] = new Shark(null, "shark", null, null, LocalDate.of(2012, 1, 1));
+            animalsRepository.setAnimals(animals);
 
-            List<String> foundNames = Arrays.asList(searchAnimalService.findLeapYearNames(animals));
+            List<String> foundNames = Arrays.asList(animalsRepository.findLeapYearNames());
             assertEquals(foundNames.size(), 4);
 
             List<String> names = Arrays.asList("cat", "dog", "wolf", "shark");
@@ -93,8 +105,9 @@ public class AnimalUnitTests {
             animals[1] = new Dog(null, "dog", null, null, LocalDate.of(2021, 1, 1));
             animals[2] = new Wolf(null, "wolf", null, null, LocalDate.of(2017, 1, 1));
             animals[3] = new Shark(null, "shark", null, null, LocalDate.of(2019, 1, 1));
+            animalsRepository.setAnimals(animals);
 
-            String[] foundNames = searchAnimalService.findLeapYearNames(animals);
+            String[] foundNames = animalsRepository.findLeapYearNames();
             assertEquals(foundNames.length, 0);
         }
 
@@ -106,8 +119,9 @@ public class AnimalUnitTests {
             animals[1] = new Dog(null, "dog", null, null, LocalDate.of(2024, 1, 1));
             animals[2] = new Wolf(null, "wolf", null, null, LocalDate.of(2017, 1, 1));
             animals[3] = new Shark(null, "shark", null, null, LocalDate.of(2020, 1, 1));
+            animalsRepository.setAnimals(animals);
 
-            List<String> foundNames = Arrays.asList(searchAnimalService.findLeapYearNames(animals));
+            List<String> foundNames = Arrays.asList(animalsRepository.findLeapYearNames());
             assertEquals(foundNames.size(), 2);
 
             List<String> names = Arrays.asList("dog", "shark");
@@ -123,8 +137,9 @@ public class AnimalUnitTests {
             for (int i = 0; i < animals.length; i++) {
                 animals[i] = new Cat(null, null, null, null, currentDate.minusYears(i));
             }
+            animalsRepository.setAnimals(animals);
 
-            Animal[] foundAnimals = searchAnimalService.findOlderAnimal(animals, n);
+            Animal[] foundAnimals = animalsRepository.findOlderAnimal(n);
             LocalDate maxBirthDate = currentDate.minusYears(n);
             for (Animal animal : foundAnimals) {
                 assertTrue(animal.getBirthDate().isBefore(maxBirthDate));
@@ -139,8 +154,9 @@ public class AnimalUnitTests {
             animals[1] = new Cat("breed", "cat1", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
             animals[2] = new Cat("breed", "cat2", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
             animals[3] = new Cat("breed", "cat2", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
+            animalsRepository.setAnimals(animals);
 
-            Animal[] duplicates = searchAnimalService.findDuplicate(animals);
+            Animal[] duplicates = animalsRepository.findDuplicate();
             assertEquals(duplicates.length, 2);
             assertEquals(duplicates[0], animals[0]);
             assertEquals(duplicates[1], animals[2]);
@@ -154,8 +170,9 @@ public class AnimalUnitTests {
             animals[1] = new Cat("breed", "cat2", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
             animals[2] = new Cat("breed", "cat3", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
             animals[3] = new Cat("breed", "cat4", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
+            animalsRepository.setAnimals(animals);
 
-            Animal[] duplicates = searchAnimalService.findDuplicate(animals);
+            Animal[] duplicates = animalsRepository.findDuplicate();
             assertEquals(duplicates.length, 0);
         }
 
@@ -167,8 +184,9 @@ public class AnimalUnitTests {
             animals[1] = new Cat("breed", "cat1", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
             animals[2] = new Cat("breed", "cat3", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
             animals[3] = new Cat("breed", "cat4", BigDecimal.valueOf(100), "character", LocalDate.of(2000, 1, 1));
+            animalsRepository.setAnimals(animals);
 
-            Animal[] duplicates = searchAnimalService.findDuplicate(animals);
+            Animal[] duplicates = animalsRepository.findDuplicate();
             assertEquals(duplicates.length, 1);
             assertEquals(duplicates[0], animals[0]);
         }

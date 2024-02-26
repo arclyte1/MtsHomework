@@ -12,12 +12,12 @@ public interface CreateAnimalService {
      * @param types array of possible {@link AnimalType}s to create
      * @return array of created animals
      */
-    default Animal[] createAnimals(AnimalType[] types) {
+    default Animal[] createAnimals() {
         RandomAnimalProvider animalProvider = RandomAnimalProvider.getInstance();
         Animal[] animals = new Animal[10];
         int i = 0;
         while (i < 10) {
-            animals[i] = animalProvider.provide(types);
+            animals[i] = animalProvider.provide(AnimalType.values());
             i++;
         }
         return animals;
