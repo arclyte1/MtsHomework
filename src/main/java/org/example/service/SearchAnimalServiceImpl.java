@@ -40,15 +40,24 @@ public class SearchAnimalServiceImpl implements SearchAnimalService {
     }
 
     @Override
-    public void findDuplicate(Animal[] animals) {
-        Map<Animal, Integer> counts = new HashMap<>();
-        for (Animal animal : animals) {
-            counts.put(animal, counts.getOrDefault(animal, 0) + 1);
+    public void printDuplicate(Animal[] animals) {
+        Animal[] duplicates = findDuplicate(animals);
+        for (Animal animal : duplicates) {
+            System.out.println(animal);
         }
-        counts.forEach((animal, count) -> {
-            if (animal != null && count > 1) {
-                System.out.println(animal);
+    }
+
+    @Override
+    public Animal[] findDuplicate(Animal[] animals) {
+        Map<Animal, Integer> counts = new HashMap<>();
+        List<Animal> duplicates = new ArrayList<>();
+        for (Animal animal : animals) {
+            int count = counts.getOrDefault(animal, 0) + 1;
+            if (count == 2) {
+                duplicates.add(animal);
             }
-        });
+            counts.put(animal, count);
+        }
+        return duplicates.toArray(Animal[]::new);
     }
 }
